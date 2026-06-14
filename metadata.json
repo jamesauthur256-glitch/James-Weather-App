@@ -1,0 +1,10 @@
+{
+  "name": "Weather Forecast",
+  "description": "An interactive real-time weather forecasting app that uses browser geolocation to provide accurate weather, hourly and weekly predictions, and personalized AI-generated weather highlights, attire recommendations, and custom day-planning advice.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
