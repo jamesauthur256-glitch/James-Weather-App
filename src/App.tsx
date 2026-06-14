@@ -240,21 +240,25 @@ export default function App() {
     : null;
 
   return (
-    <div className="min-h-screen bg-[#f8f7f2] font-sans text-[#2d2d2a] py-6 px-4 md:px-12 flex flex-col items-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-red-100 font-sans text-[#2d2d2a] py-6 px-4 md:px-12 flex flex-col items-center relative overflow-hidden">
+      
+      {/* Decorative ambient air current and warm thermal cells (Blue and Red) */}
+      <div className="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-300/30 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-red-300/25 blur-[130px] pointer-events-none" />
       
       {/* Outer bounds width restriction */}
-      <div className="w-full max-w-7xl flex flex-col gap-8">
+      <div className="w-full max-w-7xl flex flex-col gap-8 relative z-10">
         
         {/* Search Bar / Geocode Utilities Row */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between border-b border-stone-200/60 pb-6">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between border-b border-blue-200/50 pb-6">
           
           {/* Logo Title */}
           <div className="flex items-center gap-2.5">
             <span className="text-xl font-serif text-[#2d2d2a] font-semibold flex items-center gap-1">
-              <Sun className="w-5 h-5 text-[#5a5a40]" />
+              <Sun className="w-5 h-5 text-red-600 animate-spin-slow" />
               Natural Weather
             </span>
-            <span className="text-xs bg-[#e2e2d8] px-2.5 py-1 rounded-full text-[#5a5a40] font-medium uppercase tracking-wider">
+            <span className="text-xs bg-blue-600/10 px-2.5 py-1 rounded-full text-blue-700 font-medium uppercase tracking-wider">
               Real-Time
             </span>
           </div>
@@ -262,16 +266,16 @@ export default function App() {
           {/* Autocomplete form */}
           <div className="relative w-full md:w-96" id="location-picker">
             <div className="relative flex items-center">
-              <Search className="absolute left-3.5 w-4 h-4 text-[#5a5a40]" />
+              <Search className="absolute left-3.5 w-4 h-4 text-blue-600" />
               <input
                 type="text"
                 placeholder="Search global cities (e.g. Kyoto, London...)"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full bg-white border border-stone-200 rounded-full pl-10 pr-10 py-2.5 text-sm font-medium text-[#2d2d2a] placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#5a5a40] focus:border-[#5a5a40] shadow-sm transition"
+                className="w-full bg-white border border-stone-200 rounded-full pl-10 pr-10 py-2.5 text-sm font-medium text-[#2d2d2a] placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 shadow-sm transition"
               />
               {isSearching ? (
-                <RotateCw className="absolute right-4 w-4 h-4 text-[#5a5a40] animate-spin" />
+                <RotateCw className="absolute right-4 w-4 h-4 text-blue-600 animate-spin" />
               ) : searchQuery && (
                 <button 
                   onClick={() => { setSearchQuery(""); setSearchResults([]); setShowDropdown(false); }}
@@ -289,7 +293,7 @@ export default function App() {
                   <button
                     key={idx}
                     onClick={() => handleSelectPlace(p)}
-                    className="w-full text-left px-5 py-3 hover:bg-[#f8f7f2] transition-colors flex items-center justify-between border-b border-stone-100 last:border-0"
+                    className="w-full text-left px-5 py-3 hover:bg-blue-50 transition-colors flex items-center justify-between border-b border-stone-100 last:border-0"
                   >
                     <div>
                       <p className="text-sm font-semibold text-[#2d2d2a]">{p.name}</p>
@@ -297,7 +301,7 @@ export default function App() {
                         {p.state ? `${p.state}, ` : ""}{p.country}
                       </p>
                     </div>
-                    <MapPin className="w-4 h-4 text-[#5a5a40]/65" />
+                    <MapPin className="w-4 h-4 text-blue-600/70" />
                   </button>
                 ))}
               </div>
@@ -312,8 +316,8 @@ export default function App() {
               disabled={authLocationState === "requesting"}
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-xs font-semibold uppercase tracking-wider transition ${
                 authLocationState === "granted"
-                  ? "bg-[#5a5a40] text-[#f8f7f2] border-[#5a5a40]"
-                  : "bg-white text-[#2d2d2a] border-stone-200 hover:border-[#5a5a40]"
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : "bg-white text-[#2d2d2a] border-stone-200 hover:border-blue-600"
               }`}
             >
               <Navigation className={`w-3.5 h-3.5 ${authLocationState === "requesting" ? "animate-spin" : ""}`} />
@@ -321,11 +325,11 @@ export default function App() {
             </button>
 
             {/* Unit pill switcher */}
-            <div className="bg-[#e2e2d8] p-1 rounded-full flex gap-1 shadow-inner">
+            <div className="bg-stone-250/10 backdrop-blur-sm p-1 rounded-full flex gap-1 shadow-inner bg-stone-200">
               <button
                 onClick={() => setUnit("c")}
                 className={`w-9 h-7 rounded-full text-xs font-bold transition flex items-center justify-center ${
-                  unit === "c" ? "bg-white text-[#2d2d2a] shadow-sm" : "text-[#5a5a40] hover:text-[#2d2d2a]"
+                  unit === "c" ? "bg-white text-[#2d2d2a] shadow-sm" : "text-stone-600 hover:text-[#2d2d2a]"
                 }`}
               >
                 °C
@@ -333,7 +337,7 @@ export default function App() {
               <button
                 onClick={() => setUnit("f")}
                 className={`w-9 h-7 rounded-full text-xs font-bold transition flex items-center justify-center ${
-                  unit === "f" ? "bg-white text-[#2d2d2a] shadow-sm" : "text-[#5a5a40] hover:text-[#2d2d2a]"
+                  unit === "f" ? "bg-white text-[#2d2d2a] shadow-sm" : "text-stone-600 hover:text-[#2d2d2a]"
                 }`}
               >
                 °F
@@ -345,7 +349,7 @@ export default function App() {
         {/* Global Loading or Error messaging */}
         {isLoading && !weatherData && (
           <div className="flex flex-col items-center justify-center py-20 text-center gap-4">
-            <div className="w-10 h-10 border-4 border-[#e2e2d8] border-t-[#5a5a40] rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-4 border-blue-200 border-t-red-500 rounded-full animate-spin"></div>
             <p className="font-serif italic text-stone-500">Acquiring conditions for {currentLocation.name}...</p>
           </div>
         )}
@@ -363,25 +367,24 @@ export default function App() {
             
             {/* LEFT / MAIN COLUMN (8 Columns on Large Display) */}
             <div className="lg:col-span-8 flex flex-col gap-8">
-              
-              {/* App Shell Display Title & Banner */}
+                            {/* App Shell Display Title & Banner */}
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div className="location-info">
                   <h1 className="font-serif text-5xl md:text-[5.5rem] font-light leading-[1.05] tracking-tight text-[#2d2d2a]">
                     {currentLocation.name},
                   </h1>
-                  <p className="text-sm font-semibold tracking-widest text-[#5a5a40] uppercase mt-2 font-mono">
+                  <p className="text-sm font-semibold tracking-widest text-blue-700 uppercase mt-2 font-mono">
                     {currentLocation.country}
                   </p>
                 </div>
-                <div className="bg-[#e2e2d8] text-[#5a5a40] px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase flex items-center gap-1.5 shadow-sm">
+                <div className="bg-blue-600/10 text-blue-700 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase flex items-center gap-1.5 shadow-sm">
                   <Calendar className="w-3.5 h-3.5" />
                   {formatDate(weatherData.current.time)}
                 </div>
               </div>
 
               {/* Hero Weather Temperature Visual */}
-              <div className="py-6 border-y border-stone-200/80 my-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="py-6 border-y border-blue-100 my-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
                   <div className="flex items-baseline leading-[0.85]">
                     <span className="font-serif font-light text-[7.5rem] md:text-[11rem] tracking-tighter text-[#2d2d2a]">
@@ -390,32 +393,32 @@ export default function App() {
                         : Math.round((weatherData.current.temperature2m * 9) / 5 + 32)
                       }
                     </span>
-                    <span className="text-4xl md:text-5xl font-light text-[#5a5a40] font-serif ml-1 vertical-top">
+                    <span className="text-4xl md:text-5xl font-light text-red-600 font-serif ml-1 vertical-top">
                       °{unit.toUpperCase()}
                     </span>
                   </div>
-                  <div className="font-serif italic text-2xl md:text-3xl text-[#5a5a40] mt-1">
+                  <div className="font-serif italic text-2xl md:text-3xl text-blue-800 mt-1">
                     {activeCondition.label} with soft breeze
                   </div>
                 </div>
 
                 {/* Condition Large Emblem */}
-                <div className="p-6 bg-[#e2e2d8]/40 border border-stone-200 rounded-[40px] flex items-center justify-center relative shadow-sm shrink-0 w-36 h-36 md:w-44 md:h-44">
-                  <activeCondition.icon className="w-20 h-20 md:w-24 md:h-24 text-[#5a5a40] animate-pulse" />
+                <div className="p-6 bg-white/70 border border-blue-100 rounded-[40px] flex items-center justify-center relative shadow-md shrink-0 w-36 h-36 md:w-44 md:h-44">
+                  <activeCondition.icon className="w-20 h-20 md:w-24 md:h-24 text-blue-600 animate-pulse" />
                 </div>
               </div>
 
               {/* Hourly Forecast (24 Hours Scroll Carousel) */}
               <div className="bg-white border border-stone-200 rounded-[32px] p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
-                  <span className="text-xs font-bold text-[#5a5a40] uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1.5">
                     <Clock className="w-4 h-4" /> 24-Hour Timeline
                   </span>
                   <span className="text-[10px] text-stone-400">Horizontal scroll</span>
                 </div>
 
                 {/* Scroll Wrapper */}
-                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-stone-200">
+                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-blue-100">
                   {weatherData.hourly.time.slice(0, 24).map((timeStr, idx) => {
                     const temp = weatherData.hourly.temperature2m[idx];
                     const code = weatherData.hourly.weatherCode[idx];
@@ -425,12 +428,12 @@ export default function App() {
                     return (
                       <div 
                         key={idx}
-                        className="flex flex-col items-center justify-between p-3.5 bg-[#f8f7f2] rounded-2xl min-w-[76px] text-center border border-stone-100/40 relative hover:border-[#5a5a40]/30 transition"
+                        className="flex flex-col items-center justify-between p-3.5 bg-blue-50/40 rounded-2xl min-w-[76px] text-center border border-blue-100/30 relative hover:border-blue-500/30 transition shadow-sm"
                       >
-                        <span className="text-[10px] text-[#5a5a40] font-semibold">
+                        <span className="text-[10px] text-blue-800 font-semibold">
                           {formatHour(timeStr)}
                         </span>
-                        <cond.icon className="w-5 h-5 text-[#5a5a40]/90 my-2" />
+                        <cond.icon className="w-5 h-5 text-blue-600/95 my-2" />
                         <span className="text-sm font-serif font-bold text-[#2d2d2a]">
                           {formatTemp(temp, unit)}
                         </span>
@@ -448,10 +451,10 @@ export default function App() {
               {/* Weekly Forecast Blocks */}
               <div className="bg-white border border-stone-200 rounded-[32px] p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-5 border-b border-stone-100 pb-3">
-                  <span className="text-xs font-bold text-[#5a5a40] uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-red-600 uppercase tracking-wider flex items-center gap-1.5">
                     <Calendar className="w-4 h-4" /> 7-Day Outlook predictions
                   </span>
-                  <span className="text-[10px] text-[#5a5a40]/60 font-semibold uppercase tracking-wider">
+                  <span className="text-[10px] text-blue-600 font-semibold uppercase tracking-wider">
                     High / Low
                   </span>
                 </div>
@@ -467,14 +470,14 @@ export default function App() {
                     return (
                       <div 
                         key={idx}
-                        className="bg-[#f8f7f2] border border-stone-100/80 rounded-2xl p-3.5 text-center flex flex-col justify-between items-center transition hover:shadow-sm hover:border-[#5a5a40]/40"
+                        className="bg-red-50/20 border border-red-100/50 rounded-2xl p-3.5 text-center flex flex-col justify-between items-center transition hover:shadow-sm hover:border-red-500/40"
                       >
-                        <span className="text-[11px] font-semibold text-[#5a5a40] uppercase tracking-wider">
+                        <span className="text-[11px] font-semibold text-red-800 uppercase tracking-wider">
                           {formatDayShort(timeStr)}
                         </span>
                         
-                        <div className="my-3 flex items-center justify-center p-1.5 bg-[#e2e2d8]/50 rounded-xl">
-                          <cond.icon className="w-6 h-6 text-[#5a5a40]" />
+                        <div className="my-3 flex items-center justify-center p-1.5 bg-red-100/40 rounded-xl">
+                          <cond.icon className="w-6 h-6 text-red-600" />
                         </div>
 
                         <div className="flex flex-col gap-0.5">
@@ -493,7 +496,7 @@ export default function App() {
 
               {/* Grid of weather metrics */}
               <div className="flex flex-col gap-4">
-                <span className="text-xs font-bold text-[#5a5a40] uppercase tracking-wider px-2">
+                <span className="text-xs font-bold text-blue-800 uppercase tracking-wider px-2">
                   Atmospheric Indicators
                 </span>
                 <WeatherStatsGrid weatherData={weatherData} unit={unit} />
@@ -518,20 +521,20 @@ export default function App() {
               />
 
               {/* Theme Credit Card */}
-              <div className="p-5 bg-[#e2e2d8] rounded-[32px] border border-stone-300/40 text-stone-700">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-[#5a5a40] flex items-center gap-1">
+              <div className="p-5 bg-white border border-blue-100 rounded-[32px] text-stone-700 shadow-sm">
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-700 flex items-center gap-1">
                   <Compass className="w-3.5 h-3.5 animate-spin" /> Live Radar Simulation
                 </h4>
-                <p className="text-[11px] text-stone-500 mt-1 leading-normal">
+                <p className="text-[11px] text-stone-505 text-stone-500 mt-1 leading-normal">
                   Tracking fine wind anomalies and pressure fronts around {currentLocation.name}. Radar online and integrated.
                 </p>
-                <div className="relative mt-3 h-28 bg-[#f8f7f2] rounded-2xl overflow-hidden border border-stone-300 flex items-center justify-center">
-                  <div className="absolute w-2 h-2 bg-[#5a5a40] rounded-full animate-ping"></div>
-                  <div className="absolute w-2.5 h-2.5 bg-[#5a5a40] rounded-full"></div>
+                <div className="relative mt-3 h-28 bg-blue-50/40 rounded-2xl overflow-hidden border border-blue-150 flex items-center justify-center">
+                  <div className="absolute w-2 h-2 bg-blue-600 rounded-full animate-ping"></div>
+                  <div className="absolute w-2.5 h-2.5 bg-blue-600 rounded-full"></div>
                   {/* Radar Circles */}
-                  <div className="absolute border border-[#5a5a40]/20 w-8 h-8 rounded-full"></div>
-                  <div className="absolute border border-[#5a5a40]/20 w-16 h-16 rounded-full"></div>
-                  <div className="absolute border border-[#5a5a40]/20 w-24 h-24 rounded-full"></div>
+                  <div className="absolute border border-blue-200/50 w-8 h-8 rounded-full"></div>
+                  <div className="absolute border border-blue-200/50 w-16 h-16 rounded-full"></div>
+                  <div className="absolute border border-blue-200/50 w-24 h-24 rounded-full"></div>
                 </div>
               </div>
 
